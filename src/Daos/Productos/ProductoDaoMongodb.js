@@ -2,7 +2,7 @@
 import ContenedorMongodb from "../../Contenedores/ContenedorMongodb";
 
 class ProductoDaoMongodb extends ContenedorMongodb {
-    constructor() {
+    constructor(nombredecolecion,schema) {
         super("productos", {
             nombre: { type: String, required: true },
             precio: { type: Number, required: true },

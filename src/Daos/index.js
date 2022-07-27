@@ -1,3 +1,4 @@
+
 let ProductoDao;
 let CarritoDao;
 
@@ -9,8 +10,8 @@ switch (process.env.DATABASE) {
       const {default:CarritoDaoFirebase } = await import ( 
         "./Carritos/CarritoDaoFirebase"
       )
-      ProductoDao = new ProductoDaoFirebase
-      CarritoDao = new CarritoDaoFirebase
+      ProductoDao = new ProductoDaoFirebase()
+      CarritoDao = new CarritoDaoFirebase()
       
         break;
 
@@ -22,7 +23,7 @@ switch (process.env.DATABASE) {
             "./Carritos/CarritoDaoMongodb"
           )
           ProductoDao = new ProductoDaoMongodb
-          CarritoDao = new CarritoDaoMongo
+          CarritoDao = new CarritoDaoMongo()
      break;
 }
 export default {

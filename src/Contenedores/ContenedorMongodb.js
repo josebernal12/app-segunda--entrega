@@ -5,12 +5,14 @@ await mongoose.connect(config.mongodb.connectionString);
 
 class ContenedorMongodb {
     constructor(nombreColeccion, schema) {
-        this.collection = mongoose.model(nombreColeccion, schema)
+         
+        this.collection = mongoose.model(nombreColeccion, mongoose.schema(schema))
     }
-    async CreateDoc(producto) {
+    async Create(producto) {
         try {
-            const insert = await this.collection.insertMany(producto)
-            console.log(insert)
+            const insert = await this.collection.create(producto)
+          console.log(insert)
+            
         } catch (err) {
             console.log(err)
         }
@@ -23,25 +25,25 @@ class ContenedorMongodb {
        console.log(error)
     }
 }
-    async GetId(id) {
+    async GetId(_id) {
         try{
-        const objs = await this.collection.find(id)
+        const objs = await this.collection.find(_id)
         console.log(objs)
         }catch(error){
            console.log(error)
         }
     }
-    async UpdateId(id) {
+    async UpdateId(_id) {
         try{
-        const objs = await this.collection.updateOne(id)
+        const objs = await this.collection.updateOne(_id)
         console.log(objs)
         }catch(error){
 
         }
     }
-    async DeleteId(id) {
+    async DeleteId(_id) {
         try{
-        const objs = await this.collection.deleteOne(id)
+        const objs = await this.collection.deleteOne(_id)
         console.log(objs)
         }catch(error){
             console.log(error)
@@ -50,4 +52,4 @@ class ContenedorMongodb {
 }
 
 
-export default new ContenedorMongodb()
+export default   ContenedorMongodb

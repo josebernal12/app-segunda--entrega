@@ -14,7 +14,7 @@ class ContenedorFirebase {
 
     }
 
-    async CreateDoc(producto) {
+    async Create(producto) {
         try {
             const user = await this.collection.doc().get();
             await user.create(producto)
@@ -77,4 +77,4 @@ class ContenedorFirebase {
 
 }
 
-export default new ContenedorFirebase;
+export default  ContenedorFirebase
