@@ -1,31 +1,22 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router()
-import  Daos  from "../Daos/index.js"
+import { getProductos, postProductos, getProductoId, putProduct,deleteProduct} from '../controllers/productsControllers.js'
+
+import { postCarrito, deleteCarrito, listarCarritos, verCarrito} from '../controllers/cartControllers.js'
+
+//Rutas Productos
+router.get('/productos', getProductos)
+router.get('/productos/:id', getProductoId)
+router.post('/productos', postProductos)
+router.put('/productos/:id', putProduct)
+router.delete('/productos/:id', deleteProduct )
 
 
+//Rutas Carrito
+router.post('/carrito', postCarrito) 
+router.delete('/carrito/:id', deleteCarrito )
+router.get('/carrito', listarCarritos)
+router.get('/carrito/:id/productos', verCarrito)
 
 
-router.get("/productos", async (req,res) =>{
-    try{
-      await Daos.ProductoDao.getAll()
-     res.sendStatus(200)
-    }catch(error){
-      console.log(error)
-    }
-
-})
-   
-
-router.post("/productos", async (req,res) =>{
-      try{
-       
-      const insert =  await Daos.ProductoDao.Create(req.body)
-     res.sendStatus(200)
-}catch(error){
-      console.log(error)
-
-}
-})
-    
-
-export default router;
+export default router

@@ -1,80 +1,45 @@
 
 import admin from "firebase-admin";
-import config from "../config";
+import config from "../config/configfirebase";
 
 admin.initializeApp({
-    credential: admin.credential.cert(config.firebase)
+  credential: admin.credential.cert(config.firebase),
 });
 
-const db = admin.firestore()
+const db = admin.firestore();
 
 class ContenedorFirebase {
-    constructor(nombreColeccion) {
-        this.collection = db.collection(nombreColeccion)
 
-    }
+  constructor(nombreColeccion) {
+    this.collection = db.collection(nombreColeccion);
+  }
+  async newCart(){
+    const doc = this.collection.doc()
+    await doc.create({timestamp:Date.now(), products:[]})
+     
+  }
+  async getById(id) {
+    console.log('id', id)
+    const doc = await this.collection.doc(id).get();
+    const response = doc.data();
+    return response;
+  }
+ 
+  async getAll(){
+    const docSnapshot = await this.collection.get()
+    const docs = docSnapshot.docs;
 
-    async Create(producto) {
-        try {
-            const user = await this.collection.doc().get();
-            await user.create(producto)
+    const response = docs.map((doc) =>{
+      const result = doc.data();
+      result.id = doc.id;
+      return result;
+    });
+    return response;
+  }
 
-
-
-        } catch (err) {
-            console.log(err)
-        }
-
-    }
-    async getAll() {
-        try {
-            const usersSnapshot = await this.collection.get();
-            const users = usersSnapshot.docs();
-
-            const resultado = users.map(user => ({
-                id: user.id,
-                nombre: user.data().nombre,
-                precio: user.data().precio,
-                stock: user.data().stock,
-                thumbnail: user.data().thumbnail,
-            }))
-            console.log(resultado)
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    async GetId(id) {
-        try {
-            const doc = await this.collection.doc(id).get();
-            const data = doc.data();
-
-            return { ...data, id };
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    async UpdateId(id, producto) {
-        try {
-            const document = this.collection.doc(id);
-            const update = await document.update(producto)
-            console.log(update)
-
-        } catch (err) {
-            console.log(err)
-        }
-
-    }
-    async DeleteId(id) {
-        try {
-            const document = this.collection.doc(id)
-            const DeleteDoc = await document.delete()
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
+  async deleteById(id){
+      await this.collection.doc(id).delete();
+  }
+  
 }
-
-export default  ContenedorFirebase
+export default ContenedorFirebase;

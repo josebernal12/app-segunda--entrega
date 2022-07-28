@@ -1,55 +1,33 @@
-import config from "../config";
-import mongoose from "mongoose";
 
-await mongoose.connect(config.mongodb.connectionString);
+export default class ContenedorMongo {
+  constructor(nameCollection, schema) {
 
-class ContenedorMongodb {
-    constructor(nombreColeccion, schema) {
-         
-        this.collection = mongoose.model(nombreColeccion, mongoose.schema(schema))
-    }
-    async Create(producto) {
-        try {
-            const insert = await this.collection.create(producto)
-          console.log(insert)
-            
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    async getAll() {
-        try{
-        const objs = await this.collection.find()
-        console.log(objs)
-    } catch(error){
-       console.log(error)
-    }
-}
-    async GetId(_id) {
-        try{
-        const objs = await this.collection.find(_id)
-        console.log(objs)
-        }catch(error){
-           console.log(error)
-        }
-    }
-    async UpdateId(_id) {
-        try{
-        const objs = await this.collection.updateOne(_id)
-        console.log(objs)
-        }catch(error){
+    this.collection = mongoose.model(nameCollection, schema);
+  }
+  async newProduct(title, description, code, price, thumbnail, stock){
+    const doc = new this.collection({title, description, code, price, thumbnail, stock,timestamp:Date.now()})
+    await doc.save()   
+    console.log(this.collection)        
+  }
 
-        }
-    }
-    async DeleteId(_id) {
-        try{
-        const objs = await this.collection.deleteOne(_id)
-        console.log(objs)
-        }catch(error){
-            console.log(error)
-        }
-    }
+  async update(id, title, description, code, price, thumbnail, stock){
+    await this.collection.updateOne({_id:id}, {title, description, code, price, thumbnail, stock})
+    console.log(this.collection)        
+  }
+
+
+  async deleteById(id){
+    await this.collection.deleteOne({_id:id});
+  }
+  async getById(id)  {
+    const doc = await this.collection.find({ _id: id }, { __V: 0 });
+    return doc;
+  }
+  async getAll(){
+    const doc = await this.collection.find({ });
+    return doc;
+  }
+
 }
 
 
-export default   ContenedorMongodb
