@@ -1,8 +1,8 @@
-
+import mongoose from "mongoose";
 export default class ContenedorMongo {
-  constructor(nameCollection, schema) {
+  constructor(name, schema) {
 
-    this.collection = mongoose.model(nameCollection, schema);
+    this.collection = mongoose.model(name, schema);
   }
   async newProduct(title, description, code, price, thumbnail, stock){
     const doc = new this.collection({title, description, code, price, thumbnail, stock,timestamp:Date.now()})

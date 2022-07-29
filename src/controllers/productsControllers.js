@@ -1,4 +1,6 @@
-import {ProductoDao} from '../daos/index.js'
+import {ProductoDao} from "../Daos/index.js"
+
+
 
 export const getProductos = async (req, res) => {
     const verProductos = await ProductoDao.getAll()
@@ -7,7 +9,8 @@ export const getProductos = async (req, res) => {
 
 export const postProductos = async (req, res) => {
     const {title, description, code, price, thumbnail, stock} = req.body 
-    const elemento = await ProductoDao.newProduct(title, description, code, price, thumbnail, stock)
+    const elemento = await ProductoDao.newProducts((title, description, code, price, thumbnail, stock))
+    
     res.json(elemento)
 }
 export const getProductoId = async (req, res) => {

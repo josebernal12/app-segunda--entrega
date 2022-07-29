@@ -18,4 +18,5 @@ class ProductoDaoMongo extends ContenedorMongo {
 
 }
 
-export default ProductoDaoMongo;
+
+export default ProductoDaoMongo

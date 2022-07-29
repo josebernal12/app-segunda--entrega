@@ -16,17 +16,22 @@ switch (process.env.DATABASE) {
 
     break;
   case "mongo":
+
+  console.log('entre al mongo')
     const { default: ProductoDaoMongo } = await import(
-      "./productos/productoDaoMongo.js"
+      "./productos/ProductoDaoMongodb.js"
     );
     const { default: CarritoDaoMongo } = await import(
-      "./carritos/carritoDaoMongo.js"
+      "./carritos/CarritoDaoMongodb.js"
     );
 
     ProductoDao = new ProductoDaoMongo;
     CarritoDao = new CarritoDaoMongo;
  
     break;
+    default:
+      console.log('no hay nada conectado')
+      break;
 }
 
 export { ProductoDao, CarritoDao };
@@ -45,13 +50,13 @@ if(process.env.DATABASE == "firebase"){
 }
 if(process.env.DATABASE == "mongo"){
   const { default: ProductoDaoMongo } = await import(
-    "./productos/productoDaoMongo.js"
+    "./Productos/ProductoDaoMongodb.js"
   );
   const { default: CarritoDaoMongo } = await import(
-    "./carritos/carritoDaoMongo.js"
+    "./Carritos/CarritoDaoMongodb.js"
   );
 
-  ProductoDao = new ProductoDaoMongo;
+  ProductoDao = new ProductoDaoMongo
   CarritoDao = new CarritoDaoMongo;
 }
 
